@@ -1,0 +1,14 @@
+Вот несколько способов выбрать все статьи, у которых нет комментариев:
+
+Используя подзапрос NOT IN:
+SELECT * FROM article
+WHERE id NOT IN (SELECT DISTINCT article_id FROM comment);
+
+Используя подзапрос NOT EXISTS:
+SELECT * FROM article
+WHERE NOT EXISTS (SELECT * FROM comment WHERE article.id = comment.article_id);
+
+Используя LEFT JOIN:
+SELECT article.* FROM article
+LEFT JOIN comment ON article.id = comment.article_id
+WHERE comment.id IS NULL;
